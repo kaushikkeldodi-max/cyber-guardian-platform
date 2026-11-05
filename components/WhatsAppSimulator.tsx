@@ -33,6 +33,7 @@ interface WhatsAppSimulatorProps {
   theme: 'dark' | 'light';
   onReportThreatToRadar: (verdict: Verdict, snippet: string) => void;
   onTriggerInCallDemo: () => void;
+  incomingTestSnippet?: { text: string; id: number } | null;
 }
 
 const INITIAL_MESSAGES: ChatMessage[] = [
@@ -54,6 +55,7 @@ export function WhatsAppSimulator({
   theme,
   onReportThreatToRadar,
   onTriggerInCallDemo,
+  incomingTestSnippet,
 }: WhatsAppSimulatorProps) {
   const [messages, setMessages] = useState<ChatMessage[]>(INITIAL_MESSAGES);
   const [inputValue, setInputValue] = useState('');
@@ -122,6 +124,28 @@ export function WhatsAppSimulator({
       setMessages((prev) => [...prev, agentMsg]);
     }, 700);
   };
+
+  // Automatically process external preset clicked in Community Threat Radar ("Test in Simulator")
+  useEffect(() => {
+    if (incomingTestSnippet && incomingTestSnippet.text) {
+      const text = incomingTestSnippet.text;
+      let mockAttachment: {
+        name: string;
+        size: string;
+        type: 'apk' | 'image' | 'doc' | 'link';
+      } | undefined = undefined;
+
+      if (text.toLowerCase().includes('.apk')) {
+        mockAttachment = {
+          name: 'InstantLoan-Approval-v2.apk',
+          size: '14.2 MB',
+          type: 'apk',
+        };
+      }
+
+      handleProcessSubmission(text, mockAttachment);
+    }
+  }, [incomingTestSnippet]);
 
   const handlePresetClick = (preset: typeof DEMO_PRESETS[0]) => {
     handleProcessSubmission(preset.text, preset.attachment);
@@ -708,3 +732,4 @@ export function WhatsAppSimulator({
     </div>
   );
 }
+

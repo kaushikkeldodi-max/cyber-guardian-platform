@@ -191,3 +191,4 @@ export function WeeklyDigestModal({ isOpen, onClose }: WeeklyDigestModalProps) {
     </div>
   );
 }
+

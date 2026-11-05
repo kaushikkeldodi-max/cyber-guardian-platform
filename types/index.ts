@@ -71,3 +71,4 @@ export interface RadarMetrics {
   phishingDomainsBlacklisted: number;
   citizenReports: number;
 }
+

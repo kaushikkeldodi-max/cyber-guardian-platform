@@ -223,16 +223,14 @@ export function ThreatRadar({
                   <span className="text-emerald-400">{trend.spikeRegion}</span>
                 </div>
 
-                {trend.presetText && (
-                  <button
-                    onClick={() => onSelectTrendPreset(trend.presetText!)}
-                    className="flex items-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300 hover:underline cursor-pointer"
-                    title="Load this real scam into the WhatsApp simulator"
-                  >
-                    <span>Test in Simulator</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </button>
-                )}
+                <button
+                  onClick={() => onSelectTrendPreset(trend.presetText || trend.sampleSnippet || trend.title)}
+                  className="flex items-center gap-1 text-xs font-semibold text-emerald-400 hover:text-emerald-300 hover:underline cursor-pointer"
+                  title="Load this real scam into the WhatsApp simulator"
+                >
+                  <span>Test in Simulator</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </button>
               </div>
             </div>
           ))}
@@ -388,3 +386,4 @@ export function ThreatRadar({
     </div>
   );
 }
+

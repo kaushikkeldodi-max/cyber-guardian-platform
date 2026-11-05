@@ -114,6 +114,7 @@ export const INITIAL_TREND_ITEMS: ThreatTrendItem[] = [
     spikePercentage: 33,
     timeAgo: '1 hr ago',
     reportsCount: 615,
+    presetText: 'Congratulations! You are selected for YouTube Video Like & Earn ₹3,500/day work from home. Complete 3 demo tasks now to receive immediate UPI payout. Join Telegram: https://t.me/vip_tasks_earn',
   },
 ];
 
@@ -444,6 +445,73 @@ export function analyzeSuspiciousInput(
     };
   }
 
+  // 4b. Job & Task Scam Pattern Check (YouTube Like & Earn, Telegram VIP tasks)
+  const isJobScam = 
+    text.includes('like & earn') ||
+    text.includes('youtube') ||
+    text.includes('vip task') ||
+    text.includes('work from home') ||
+    (text.includes('telegram') && text.includes('earn')) ||
+    text.includes('t.me/');
+
+  if (isJobScam) {
+    return {
+      risk: 'DANGEROUS',
+      category: 'Job & Investment Scam',
+      score: 92,
+      confidence: 96,
+      detectedFlags: [
+        'Classic task-based prepayment Ponzi / Telegram job scam',
+        'Lures victims with small initial ₹150 payouts, then demands ₹5,000–₹50,000 to "unlock" fake funds',
+        'Uses untraceable Telegram channels and fraudulent mule UPI IDs',
+      ],
+      threatIndicators: [
+        {
+          label: 'Prepayment Fraud Vector',
+          detail: 'Legitimate employers never ask candidates to transfer money or recharge accounts to get work tasks.',
+          severity: 'high',
+        },
+        {
+          label: 'Telegram Trap',
+          detail: 'Victims are funneled into Telegram groups with fake bots celebrating fabricated profits.',
+          severity: 'high',
+        },
+      ],
+      explanations: {
+        en: 'CRITICAL ALERT: This is a classic "Like & Earn" Telegram task fraud. Scammers pay a small token reward (₹100–₹200) for liking videos, then freeze your money and demand heavy deposits to "unlock profits".',
+        hi: 'धोखाधड़ी चेतावनी: यह एक टेलीग्राम टास्क फ्रॉड (Like & Earn Scam) है। शुरुआत में छोटे भुगतान का लालच देकर बाद में लाखों रुपये जमा करवा कर ठग लेते हैं।',
+        kn: 'ವಂಚನೆ ಎಚ್ಚರಿಕೆ: ಇದು ಟೆಲಿಗ್ರಾಮ್ ಟಾಸ್ಕ್ ಸ್ಕ್ಯಾಮ್ ಆಗಿದೆ. ಯೂಟ್ಯೂಬ್ ಲೈಕ್ ಮಾಡಲು ಸಣ್ಣ ಹಣ ನೀಡಿ, ನಂತರ ಹೆಚ್ಚು ಹಣ ಹೂಡಿಕೆ ಮಾಡಿಸಿ ಮೋಸ ಮಾಡುತ್ತಾರೆ.',
+        ta: 'மோசடி எச்சரிக்கை: இது டெலிகிராம் "Like & Earn" பணி மோசடி. ஆரம்பத்தில் சிறிய தொகையைக் கொடுத்து, பின்னர் பெரிய தொகையை டெபாசிட் செய்யச் சொல்லி ஏமாற்றுவார்கள்.',
+      },
+      actionAdvices: {
+        en: [
+          '🛑 DO NOT join the Telegram channel or transfer any "task registration" fee.',
+          '🚫 Real corporate hiring NEVER operates via anonymous Telegram links.',
+          '📱 Block the sender on WhatsApp/Telegram immediately.',
+          '📞 Report this number and UPI ID at 1930 / cybercrime.gov.in.',
+        ],
+        hi: [
+          '🛑 किसी भी टेलीग्राम ग्रुप में न जुड़ें और न ही कोई पंजीकरण शुल्क दें।',
+          '🚫 कोई भी वैध कंपनी कभी भी काम देने के लिए पैसे नहीं मांगती।',
+          '📱 भेजने वाले को तुरंत ब्लॉक करें।',
+          '📞 इस नंबर की शिकायत 1930 पर दर्ज करें।',
+        ],
+        kn: [
+          '🛑 ಟೆಲಿಗ್ರಾಮ್ ಚಾನಲ್‌ಗೆ ಸೇರಬೇಡಿ ಅಥವಾ ನೋಂದಣಿ ಶುಲ್ಕ ಪಾವತಿಸಬೇಡಿ.',
+          '🚫 ಯಾವುದೇ ನೈಜ ಉದ್ಯೋಗ ನೀಡುವ ಸಂಸ್ಥೆ ಹಣ ಕೇಳುವುದಿಲ್ಲ.',
+          '📱 ಕಳುಹಿಸಿದವರನ್ನು ತಕ್ಷಣ ಬ್ಲಾಕ್ ಮಾಡಿ.',
+          '📞 ಈ ವಂಚನೆಯ ಬಗ್ಗೆ 1930 ಗೆ ದೂರು ನೀಡಿ.',
+        ],
+        ta: [
+          '🛑 டெலிகிராம் சேனலில் இணைய வேண்டாம் மற்றும் எந்த கட்டணமும் செலுத்த வேண்டாம்.',
+          '🚫 எந்தவொரு உண்மையான நிறுவனமும் வேலைக்காக பணம் கேட்காது.',
+          '📱 அனுப்பியவரை உடனடியாக பிளாக் செய்யவும்.',
+          '📞 இந்த எண்ணை 1930 இல் புகாரளிக்கவும்.',
+        ],
+      },
+    };
+  }
+
   // 5. Safe Notice Pattern Check (e.g. Amazon, Swiggy, Uber, legit order updates)
   const isSafeNotification = 
     (text.includes('amazon') || text.includes('package') || text.includes('delivery update') || text.includes('flipkart') || text.includes('swiggy') || text.includes('zomato')) &&
@@ -586,3 +654,4 @@ export function analyzeSuspiciousInput(
     },
   };
 }
+

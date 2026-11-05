@@ -59,3 +59,4 @@ export function EmergencyBar({ onOpenExplainer }: EmergencyBarProps) {
     </div>
   );
 }
+

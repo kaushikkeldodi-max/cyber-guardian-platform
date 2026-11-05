@@ -43,6 +43,9 @@ export default function Home() {
   // Community Threat Trend Stream
   const [trendItems, setTrendItems] = useState<ThreatTrendItem[]>(INITIAL_TREND_ITEMS);
 
+  // Incoming test snippet to be analyzed in the WhatsApp simulator
+  const [incomingTestSnippet, setIncomingTestSnippet] = useState<{ text: string; id: number } | null>(null);
+
   // Background heartbeat incrementing metrics realistically
   useEffect(() => {
     const timer = setInterval(() => {
@@ -108,14 +111,15 @@ export default function Home() {
 
   // Click on "Test in Simulator" from right column
   const handleSelectTrendPreset = (snippet: string) => {
+    setIncomingTestSnippet({ text: snippet, id: Date.now() });
     setMobileTab('simulator');
     // Scroll smoothly to simulator on mobile
     if (typeof window !== 'undefined') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    // Show tip toast
-    setToastMessage('Snippet loaded! Click send or edit it in the WhatsApp input bar.');
-    setTimeout(() => setToastMessage(null), 3000);
+    // Show confirmation toast
+    setToastMessage('Scam loaded into WhatsApp simulator for inspection! 🛡️');
+    setTimeout(() => setToastMessage(null), 3500);
   };
 
   return (
@@ -228,6 +232,7 @@ export default function Home() {
             theme={waTheme}
             onReportThreatToRadar={handleReportThreatToRadar}
             onTriggerInCallDemo={() => setInCallModalOpen(true)}
+            incomingTestSnippet={incomingTestSnippet}
           />
         </section>
 
@@ -317,3 +322,4 @@ export default function Home() {
     </div>
   );
 }
+
