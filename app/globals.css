@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0b141a;
+  --foreground: #e9edef;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* Custom WhatsApp web scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(134, 150, 160, 0.25);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(134, 150, 160, 0.45);
+}
+
+/* WhatsApp chat background doodle pattern overlay */
+.wa-chat-bg-dark {
+  background-color: #0b141a;
+  background-image: radial-gradient(circle at 50% 50%, rgba(18, 30, 37, 0.8) 0%, rgba(11, 20, 26, 0.95) 100%),
+    repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 1px, transparent 0, transparent 50px);
+}
+
+.wa-chat-bg-light {
+  background-color: #efeae2;
+  background-image: radial-gradient(circle at 50% 50%, rgba(229, 221, 213, 0.8) 0%, rgba(239, 234, 226, 0.95) 100%),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.02) 0, rgba(0, 0, 0, 0.02) 1px, transparent 0, transparent 50px);
+}
+
+/* Glowing hazard pulse for dangerous verdicts */
+@keyframes hazardPulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(239, 68, 68, 0);
+  }
+}
+
+.hazard-glow {
+  animation: hazardPulse 2s infinite;
+}
+
+/* Waveform pulse for in-call simulator */
+@keyframes waveBar {
+  0%, 100% {
+    height: 12%;
+  }
+  50% {
+    height: 95%;
+  }
+}
+
+.animate-wave-1 { animation: waveBar 1.1s ease-in-out infinite; }
+.animate-wave-2 { animation: waveBar 0.8s ease-in-out 0.2s infinite; }
+.animate-wave-3 { animation: waveBar 1.4s ease-in-out 0.4s infinite; }
+.animate-wave-4 { animation: waveBar 0.9s ease-in-out 0.1s infinite; }
+.animate-wave-5 { animation: waveBar 1.3s ease-in-out 0.3s infinite; }
